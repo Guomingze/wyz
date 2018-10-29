@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.dao.SiteDao">
+    <select id="address" resultType="cn.pojo.Site" parameterType="cn.pojo.Site">
+        select sid,suid,saddress,sphone from site
+        <trim prefix="where" suffix="and state=1" prefixOverrides="and|or">
+            <if test="suid != null and suid != '' and suid != 0">
+                and suid=#{suid}
+            </if>
+            <if test="sid != null and sid != '' and sid != 0">
+                and sid=#{sid}
+            </if>
+            <if test="saddress != null and saddress != '' and saddress != 0">
+                and saddress=#{saddress}
+            </if>
+        </trim>
+    </select>
+    <insert id="addaddress" parameterType="cn.pojo.Site">
+        insert into site(sid,suid,saddress,sphone,state) values(0,#{suid},#{saddress},#{sphone},1)
+    </insert>
+    <update id="amendaddress" parameterType="cn.pojo.Site">
+        update site
+        <trim prefix="set" suffixOverrides="," suffix="where sid=#{sid}">
+            <if test="saddress != null">
+                saddress=#{saddress},
+            </if>
+            <if test="sphone != null">
+                sphone=#{sphone},
+            </if>
+        </trim>
+    </update>
+    <update id="deleteaddress" parameterType="cn.pojo.Site">
+        update site set state=0 where sid=#{sid}
+    </update>
+</mapper>

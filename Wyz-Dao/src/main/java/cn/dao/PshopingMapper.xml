@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.dao.PshopingDao">
+    <!--查询全部-->
+    <select id="allPshopings" parameterType="Pshoping" resultType="Pshoping">
+        select * from pshoping
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="pid != null">
+                and pid=#{pid}
+            </if>
+            <if test="pcommodity != null">
+                and pcommodity=#{pcommodity}
+            </if>
+            <if test="ptype != null" >
+                and ptype=#{ptype}
+            </if>
+            <if test="pmoney != null">
+                and pmoey=#{pmoey}
+            </if>
+            <if test="pnumber != null">
+                and pnumber=#{pnumber}
+            </if>
+            <if test="pdetails != null">
+                and pdetails=#{pdetails}
+            </if>
+            <if test="p1 != null">
+                and p1=#{p1}
+            </if>
+            <if test="p2 != null">
+                and p2=#{p2}
+            </if>
+            <if test="p3 != null">
+                and p3=#{p3}
+            </if>
+
+        </trim>
+        
+    </select>
+    <!--增加一条-->
+    <insert id="addPshoping" parameterType="Pshoping" >
+        insert into Pshoping values (0,#{pcommodity},#{ptype},#{pmoney},#{pnumber},#{pdetails},#{p1},#{p2},#{p3})
+    </insert>
+    <!--修改商品信息-->
+    <update id="updatePshoping" parameterType="Pshoping" >
+        update pshoping
+        <trim prefix="set" prefixOverrides="and|or" suffix="where pid=#{pid}">
+            <if test="pid != null">
+                and pid=#{pid}
+            </if>
+            <if test="pcommodity != null">
+                and pcommodity=#{pcommodity}
+            </if>
+            <if test="ptype != null" >
+                and ptype=#{ptype}
+            </if>
+            <if test="pmoney != null">
+                and pmoey=#{pmoey}
+            </if>
+            <if test="pnumber != null">
+                and pnumber=#{pnumber}
+            </if>
+            <if test="pdetails != null">
+                and pdetails=#{pdetails}
+            </if>
+            <if test="p1 != null">
+                and p1=#{p1}
+            </if>
+            <if test="p2 != null">
+                and p2=#{p2}
+            </if>
+            <if test="p3 != null">
+                and p3=#{p3}
+            </if>
+        </trim>
+    </update>
+    <select id="selectDimShoping" resultType="Pshoping" parameterType="Pshoping">
+        select * from Pshoping
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="pcommodity !=null">
+              and pcommodity like concat('%',#{pcommodity},'%')
+            </if>
+            <if test="ptype !=null">
+              and ptype like concat('%',#{ptype},'%')
+            </if>
+            <if test="pmoney !=null">
+               and  #{pmoney} > pmoney
+            </if>                                                                                                                                                                                        </trim>
+    </select>
+
+    <!--分页查询SQL语句-->
+    <select id="fenye"  resultType="Pshoping">
+	    SELECT pcommodity  FROM pshoping where ptype =#{pshoping.ptype}  limit #{count1}, #{count2}
+    </select>
+</mapper>

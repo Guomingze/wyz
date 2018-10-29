@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.dao.UsersDao">
+    <!--根据密码或者id查找用户信息-->
+    <select id="isExist" resultType="cn.pojo.Users" parameterType="cn.pojo.Users">
+        select uid,uname,upassword,usex,uphone,udelivery,ubalance,ustate,unumber,u1,u2,u3 from users
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="upassword != null and upassword != ''">upassword=#{upassword}</if>
+            <if test="uid != null and uid != ''">and uid = #{uid}</if>
+        </trim>
+    </select>
+    <!--增加一条用户信息-->
+    <insert id="addUser" parameterType="cn.pojo.Users">
+        insert into users values(0,#{uid},#{upassword},#{usex},#{uphone},#{udelivery},0,1,0,#{u1},#{u2},#{u3})
+    </insert>
+    <!--删除用户 修改用户状态-->
+    <update id="delete" parameterType="cn.pojo.Users">
+        update users set ustate=0 where uid=#{uid}
+    </update>
+    <!--修改用户信息-->
+    <insert id="amendUser" parameterType="cn.pojo.Users">
+        update users
+        <trim prefix="set" suffixOverrides="," suffix="where uid=#{uid}">
+            <if test="uname != null and uname != ''">uname = #{uname},</if>
+            <if test="upassword !=null and upassword != ''"> upassword = #{upassword},</if>
+            <if test="usex != null and usex != ''">usex = #{usex},</if>
+            <if test="uphone != null and uphone != ''"> uphone = #{uphone},</if>
+            <if test="udelivery != null and udelivery != ''"> udelivery = #{udelivery},</if>
+            <if test="u1 != null and u1 != ''">u1 = #{u1},</if>
+            <if test="u2 != null and u2 != ''"> u2 = #{u2},</if>
+            <if test="u3 != null and u3 != ''"> u3 = #{u3},</if>
+        </trim>
+    </insert>
+</mapper>

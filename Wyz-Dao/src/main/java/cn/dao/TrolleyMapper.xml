@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.dao.TrolleyDao">
+    <resultMap id="q" type="Trolley">
+        <result column="tid" property="tid"/>
+        <result column="tnumber" property="tnumber"/>
+        <result column="tmoney" property="tmoney"/>
+        <result column="tstate" property="tstate"/>
+        <result column="tpid" property="tpid"/>
+        <result column="tuid" property="tuid"/>
+        <association property="ps" javaType="Pshoping">
+            <result column="pid" property="pid"/>
+            <result column="pcommodity" property="pcommodity"/>
+            <result column="ptype" property="ptype"/>
+            <result column="pmoney" property="pmoney"/>
+            <result column="pnumber" property="pnumber"/>
+            <result column="pdetails" property="pdetails"/>
+            <result column="p1" property="p1"/>
+            <result column="p2" property="p2"/>
+            <result column="p3" property="p3"/>
+        </association>
+        <association property="us" javaType="users">
+            <result column="uid" property="uid"/>
+            <result column="uname" property="uname"/>
+            <result column="upassword" property="upassword"/>
+            <result column="usex" property="usex"/>
+            <result column="uphone" property="uphone"/>
+            <result column="udelivery" property="udelivery"/>
+            <result column="ubalance" property="ubalance"/>
+            <result column="ustate" property="ustate"/>
+            <result column="unumber" property="unumber"/>
+            <result column="u1" property="u1"/>
+            <result column="u2" property="u2"/>
+            <result column="u3" property="u3"/>
+        </association>
+    </resultMap>
+    <select id="shopping" resultMap="q" resultType="Trolley" parameterType="Trolley">
+       SELECT users.uname,trolley.tpid, pshoping.pcommodity,trolley.tnumber,trolley.tmoney,trolley.tid FROM users ,pshoping ,trolley WHERE tuid=uid and pid=tpid and tuid=#{tuid} and tstate=1
+    </select>
+    <select id="seps" resultType="Trolley" parameterType="Trolley">
+       SELECT tpid,tstate,tnumber,tmoney FROM trolley WHERE tpid=#{tpid} and tuid=#{tuid}
+    </select>
+    <update id="information" parameterType="Trolley">
+        update trolley set tnumber=#{tnumber},tmoney=#{tmoney}, tstate=1 where tpid=#{tpid} and tuid=#{tuid}
+    </update>
+    <insert id="Addshopping" parameterType="Trolley">
+        INSERT INTO trolley(tid,tuid,tpid,tnumber,tmoney,tstate) VALUES(0,#{tuid},#{tpid},#{tnumber},#{tmoney},1)
+    </insert>
+    <update id="deleteshopping" parameterType="Trolley">
+        UPDATE trolley set tstate=0 where tid =#{tid}
+    </update>
+</mapper>

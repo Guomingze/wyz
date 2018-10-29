@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.dao.OrderDao">
+    <insert id="addOrder" parameterType="Order">
+        insert into order values (0,#{oname},#{ocommodity},#{onumber},#{omoney},1,#{o1},#{o2},#{o3})
+    </insert>
+    <!--  <update id="deleteOrder" parameterType="Order">
+          update order set ostate=0 where oid=#{oid}
+      </update>-->
+    <update id="amendOrder" parameterType="Order">
+        update `order`
+        <trim prefix="set" suffixOverrides="," suffix="where oid=#{oid}">
+            <if test="oname != null">
+                oname=#{oname} ,
+            </if>
+            <if test="ocommodity != null">
+                ocommodity=#{ocommodity} ,
+            </if>
+            <if test="onumber != null">
+                onumber=#{onumber}
+            </if>
+            <if test="omoney != null">
+                omoney=#{omoney}
+            </if>
+            <if test="ostate != null">
+                ostate=#{ostate} ,
+            </if>
+            <if test="o1 != null">
+                o1=#{o1} ,
+            </if>
+            <if test="o2 != null">
+                o2=#{o2} ,
+            </if>
+            <if test="o3 != null">
+                o3=#{o3} ,
+            </if>
+        </trim>
+    </update>
+    <select id="selectOrder" resultType="Order" parameterType="Order">
+        select * from `order`
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="ocommodity">
+                and ocommodity=#{ocommodity}
+            </if>
+            <if test="o1 != null">
+                and o1=#{o1}
+            </if>
+            <if test="o2 != null">
+                and o2=#{o2}
+            </if>
+            <if test="o3 != null">
+                and o3=#{o3}
+            </if>
+            <if test=" 1== 1">
+                and oname=#{oname} and ostate=#{ostate}
+            </if>
+        </trim>
+    </select>
+    <resultMap id="ordell" type="Orderll">
+        <result column="oid" property="oid"/>
+        <result column="oname" property="oname"/>
+        <result column="ocommodity" property="ocommodity"/>
+        <result column="ostate" property="ostate"/>
+        <result column="onumber" property="onumber"/>
+        <result column="omoney" property="omoney"/>
+        <association property="pshoping" javaType="Pshoping">
+        <result column="pid" property="pid"/>
+        <result column="pcommodity" property="pcommodity"/>
+        <result column="ptype" property="ptype"/>
+        <result column="pmoney" property="pmoney"/>
+        <result column="pnumber" property="pnumber"/>
+        <result column="pdetails" property="pdetails"/>
+        <result column="p1" property="p1"/>
+        </association>
+    </resultMap>
+    <select id="selectAll" resultMap="ordell">
+        SELECT `order`.onumber,`order`.omoney,pshoping.pcommodity FROM `order`INNER JOIN pshoping ON `order`.ocommodity = pshoping.pid WHERE oname=#{oname} and ostate=#{ostate}
+    </select>
+</mapper>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.dao.TypeDao">
+    <!--添加一个商品种类-->
+    <insert id="addType" parameterType="Type">
+          insert into type values (#{tid},#{tname},#{tstate},#{t1},#{t2},#{t3})
+    </insert>
+
+    <!--查询商品种类-->
+    <select id="getAllType" resultType="Type" parameterType="Type">
+        select * from type
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="tid != null">
+                and tid=#{tid}
+            </if>
+            <if test="tname != null">
+                and tname=#{tname}
+            </if>
+            <if test="tstate != null">
+                and tstate=#{tstate}
+            </if>
+            <if test="t1 != null">
+                and t1=#{t1}
+            </if>
+            <if test="t2 != null">
+                and t2=#{t2}
+            </if>
+            <if test="t3 != null">
+                and t3=#{t3}
+            </if>
+        </trim>
+
+    </select>
+    <update id="amendType" parameterType="Pshoping" >
+        update pshoping
+        update users
+
+        <trim prefix="set" suffixOverrides="," suffix="where tid = #{tid}" >
+            <if test="tid != null">
+                and tid=#{tid}
+            </if>
+            <if test="tname != null">
+                and tname=#{tname}
+            </if>
+            <if test="tstate != null">
+                and tstate=#{tstate}
+            </if>
+            <if test="t1 != null">
+                and t1=#{t1}
+            </if>
+            <if test="t2 != null">
+                and t2=#{t2}
+            </if>
+            <if test="t3 != null">
+                and t3=#{t3}
+            </if>
+        </trim>
+
+    </update>
+    <!--删除商品信息-->
+    <delete id="deleteType" parameterType="Type">
+		delete from type where tid=#{tid}
+	</delete>
+
+
+</mapper>

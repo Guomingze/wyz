@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.dao.FavoriteDao">
+    <insert id="addFavorite" parameterType="cn.pojo.Favorite">
+        insert into favorite (fid,fname,fcontent,f1,f2,f3) values (0,#{fname},#{fcontent},#{f1},1,#{f3});
+    </insert>
+    <update id="deleteFavorite" parameterType="cn.pojo.Favorite">
+        update favorite set f2=0 where fid=#{fid}
+    </update>
+    <select id="getUserFavorite" parameterType="cn.pojo.Users" resultType="cn.pojo.Favorite">
+        select fid,fname,fcontent,f1,f2,f3 from favorite where fname=#{uid}
+    </select>
+    <select id="getShopingFavorite" parameterType="cn.pojo.Pshoping" resultType="cn.pojo.Favorite">
+        select fid,fname,fcontent,f1,f2,f3 from favorite where f1=#{pid}
+    </select>
+</mapper>
